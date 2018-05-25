@@ -6,7 +6,7 @@ class Game extends Component {
     return (
       <div>
         React Minesweeper
-        <Board height={6} width={6} mines={8} />
+        <Board height={8} width={8} mines={10} />
       </div>
     );
   }

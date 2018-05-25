@@ -16,8 +16,23 @@ class Board extends Component {
     return <Cell value={val} />;
   };
 
+  setMines = data => {
+    let mineCount = this.state.mines;
+    let currentMines = [];
+    for (let i = 0; i < mineCount; i++) {
+      Math.floor(Math.random * 63);
+      currentMines.push({
+        row: Math.floor(Math.random * 7),
+        col: Math.floor(Math.random * 7)
+      });
+    }
+    data.map(() => {});
+  };
+
   initBoardData = (height, width) => {
     let data = this.createArray(height, width);
+    /*Set Mines */
+    /*Set other values */
     return data;
   };
 
@@ -26,18 +41,32 @@ class Board extends Component {
     for (let i = 0; i < height; i++) {
       cellData.push([]);
       for (let j = 0; j < width; j++) {
-        cellData[i][j] = {};
+        /* TODO - Need to initialize cellData*/
+        cellData[i][j] = {
+          key: "R" + i + "C" + j,
+          revealed: false,
+          isMine: false
+        };
       }
     }
     return cellData;
   };
 
+  /*TODO - Handle Click Event (Reveal Cell)*/
+
+  /*TODO - Handle Right Click Event (Flag)*/
+
+  /*TODO - Assign Cell Values*/
+
+  /**/
+
   renderBoard = data => {
-    for (let i = 0; i < data.length; i++) {
-      for (let j = 0; j < data[i].length; j++) {
-        return <Cell value={j} />;
-      }
-    }
+    return data.map(row => {
+      return row.map(item => {
+        /*TODO - need to add key to cell components */
+        return <Cell key={item.key} value={item} />;
+      });
+    });
   };
 
   render() {
