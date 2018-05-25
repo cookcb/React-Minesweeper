@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import Board from "";
-//import ReactDOM from "react-dom";
+import Board from "./Board";
 
 class Game extends Component {
   render() {

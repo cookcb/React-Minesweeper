@@ -8,6 +8,6 @@ class Cell extends Component {
     };
   }
   render() {
-    return <div>{this.state.value}</div>;
+    return <div className="cell">{this.state.value}</div>;
   }
 }

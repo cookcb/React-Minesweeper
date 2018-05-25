@@ -1,0 +1,10 @@
+.cell {
+  width: 45px;
+  float: left;
+  height: 45px;
+  border: 1px solid black;
+}
+
+.board {
+  max-width: 400px;
+}

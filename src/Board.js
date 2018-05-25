@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Cell from "Cell.js";
+import Cell from "./Cell";
 
 class Board extends Component {
   constructor(props) {
@@ -31,7 +31,9 @@ class Board extends Component {
     return cellData;
   };
 
+  renderBoard = data => {};
+
   render() {
-    return;
+    return <div className="board">{this.renderBoard(this.state.cells)}</div>;
   }
 }
