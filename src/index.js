@@ -9,7 +9,7 @@ const styles = {
 
 const App = () => (
   <div style={styles}>
-    <h2>Start editing to see some magic happen {"\u2728"}</h2>
+    <Game />
   </div>
 );
 

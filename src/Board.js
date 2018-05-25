@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Cell from "./Cell";
+import Cell from "./Cell.js";
 
 class Board extends Component {
   constructor(props) {
@@ -12,12 +12,13 @@ class Board extends Component {
     };
   }
 
-  renderCell = i => {
-    return <Cell value={this.state.cells[i]} />;
+  renderCell = val => {
+    return <Cell value={val} />;
   };
 
   initBoardData = (height, width) => {
     let data = this.createArray(height, width);
+    return data;
   };
 
   createArray = (height, width) => {
@@ -31,9 +32,17 @@ class Board extends Component {
     return cellData;
   };
 
-  renderBoard = data => {};
+  renderBoard = data => {
+    for (let i = 0; i < data.length; i++) {
+      for (let j = 0; j < data[i].length; j++) {
+        return <Cell value={j} />;
+      }
+    }
+  };
 
   render() {
     return <div className="board">{this.renderBoard(this.state.cells)}</div>;
   }
 }
+
+export default Board;
