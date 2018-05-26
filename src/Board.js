@@ -8,7 +8,7 @@ class Board extends Component {
       height: props.height,
       width: props.width,
       mines: props.mines,
-      cells: this.initBoardData(props.height, props.width)
+      cells: this.initBoardData(props.height, props.width, props.mines)
     };
   }
 
@@ -16,23 +16,36 @@ class Board extends Component {
     return <Cell value={val} />;
   };
 
-  setMines = data => {
-    let mineCount = this.state.mines;
+  /*Set the mine locations on the grid */
+  setMines = (data, mineCnt) => {
     let currentMines = [];
-    for (let i = 0; i < mineCount; i++) {
+    for (let i = 0; i < mineCnt; i++) {
       Math.floor(Math.random * 63);
       currentMines.push({
-        row: Math.floor(Math.random * 7),
-        col: Math.floor(Math.random * 7)
+        row: Math.floor(Math.random() * 7),
+        col: Math.floor(Math.random() * 7)
       });
     }
-    data.map(() => {});
+    currentMines.forEach(item => {
+      data[item.row][item.col].isMine = true;
+      data[item.row][item.col].value = "B";
+    });
   };
 
-  initBoardData = (height, width) => {
+  setValues = data => {
+    for (let i = 0; i < data.length; i++) {
+      for (let j = 0; j < data[i].length; j++) {
+        if (data[i][j].isMine !== true) {
+        }
+      }
+    }
+  };
+
+  initBoardData = (height, width, mineCount) => {
     let data = this.createArray(height, width);
-    /*Set Mines */
+    this.setMines(data, mineCount);
     /*Set other values */
+    console.log(data);
     return data;
   };
 
@@ -45,7 +58,8 @@ class Board extends Component {
         cellData[i][j] = {
           key: "R" + i + "C" + j,
           revealed: false,
-          isMine: false
+          isMine: false,
+          value: ""
         };
       }
     }
@@ -56,15 +70,19 @@ class Board extends Component {
 
   /*TODO - Handle Right Click Event (Flag)*/
 
-  /*TODO - Assign Cell Values*/
-
-  /**/
+  traverseNeighbors = (row, col) => {
+    let mineCnt = 0;
+    let minRow = row - 1,
+      minCol = col - 1,
+      maxRow = row + 1,
+      maxCol = col + 1;
+  };
 
   renderBoard = data => {
     return data.map(row => {
       return row.map(item => {
         /*TODO - need to add key to cell components */
-        return <Cell key={item.key} value={item} />;
+        return <Cell key={item.key} value={item.value} />;
       });
     });
   };

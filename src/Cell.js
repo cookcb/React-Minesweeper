@@ -9,7 +9,7 @@ class Cell extends Component {
   }
   render() {
     let value = this.state.val;
-    return <div className="cell" />;
+    return <div className="cell">{value}</div>;
   }
 }
 
