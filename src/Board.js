@@ -28,7 +28,7 @@ class Board extends Component {
     }
     currentMines.forEach(item => {
       data[item.row][item.col].isMine = true;
-      data[item.row][item.col].value = "B";
+      data[item.row][item.col].value = "M";
     });
   };
 
@@ -36,6 +36,7 @@ class Board extends Component {
     for (let i = 0; i < data.length; i++) {
       for (let j = 0; j < data[i].length; j++) {
         if (data[i][j].isMine !== true) {
+          this.traverseNeighbors(i, j, data);
         }
       }
     }
@@ -44,8 +45,8 @@ class Board extends Component {
   initBoardData = (height, width, mineCount) => {
     let data = this.createArray(height, width);
     this.setMines(data, mineCount);
-    /*Set other values */
-    console.log(data);
+    this.setValues(data);
+
     return data;
   };
 
@@ -70,12 +71,34 @@ class Board extends Component {
 
   /*TODO - Handle Right Click Event (Flag)*/
 
-  traverseNeighbors = (row, col) => {
+  traverseNeighbors = (row, col, data) => {
     let mineCnt = 0;
     let minRow = row - 1,
       minCol = col - 1,
       maxRow = row + 1,
       maxCol = col + 1;
+    for (let i = minRow; i < maxRow; i++) {
+      //Row Edge Check
+      if (i < 0 || i > data.length) {
+        continue;
+      }
+      for (let j = minCol; j < maxCol; j++) {
+        //Column Edge Check
+        if (j < 0 || j > data[i].length) {
+          continue;
+        }
+        console.log(i);
+        console.log(j);
+        if (data[i][j].isMine === true) {
+          mineCnt++;
+        }
+      }
+    }
+    //Set the value of the cell to the number of mines around cell
+    if (mineCnt !== 0) {
+      data[row][col].value = mineCnt;
+      //console.log(data[row][col].value);
+    }
   };
 
   renderBoard = data => {
