@@ -58,6 +58,7 @@ class Board extends Component {
         /* TODO - Need to initialize cellData*/
         cellData[i][j] = {
           key: "R" + i + "C" + j,
+          id: i + "-" + j,
           revealed: false,
           isMine: false,
           value: ""
@@ -68,7 +69,13 @@ class Board extends Component {
   };
 
   /*TODO - Handle Click Event (Reveal Cell)*/
-
+  handleLeftClick = cellId => {
+    console.log(this.state.cells);
+    let cell = this.state.cells.forEach(obj => {
+      //console.log(obj.id);
+    });
+    console.log(cellId);
+  };
   /*TODO - Handle Right Click Event (Flag)*/
 
   traverseNeighbors = (row, col, data) => {
@@ -77,18 +84,16 @@ class Board extends Component {
       minCol = col - 1,
       maxRow = row + 1,
       maxCol = col + 1;
-    for (let i = minRow; i < maxRow; i++) {
+    for (let i = minRow; i <= maxRow; i++) {
       //Row Edge Check
-      if (i < 0 || i > data.length) {
+      if (i < 0 || i > data.length - 1) {
         continue;
       }
-      for (let j = minCol; j < maxCol; j++) {
+      for (let j = minCol; j <= maxCol; j++) {
         //Column Edge Check
-        if (j < 0 || j > data[i].length) {
+        if (j < 0 || j > data[i].length - 1) {
           continue;
         }
-        console.log(i);
-        console.log(j);
         if (data[i][j].isMine === true) {
           mineCnt++;
         }
@@ -97,7 +102,6 @@ class Board extends Component {
     //Set the value of the cell to the number of mines around cell
     if (mineCnt !== 0) {
       data[row][col].value = mineCnt;
-      //console.log(data[row][col].value);
     }
   };
 
@@ -105,7 +109,14 @@ class Board extends Component {
     return data.map(row => {
       return row.map(item => {
         /*TODO - need to add key to cell components */
-        return <Cell key={item.key} value={item.value} />;
+        return (
+          <Cell
+            key={item.key}
+            value={item.value}
+            id={item.id}
+            onLeftClick={this.handleLeftClick.bind(this)}
+          />
+        );
       });
     });
   };
