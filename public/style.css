@@ -12,9 +12,9 @@
 }
 
 .cell-is-hidden {
-  background-color: dimgrey;
+  background-color: darkblue;
 }
 
 .cell-is-revealed {
-  background-color: black;
+  background-color: dimgrey;
 }

@@ -10,6 +10,14 @@ class Cell extends Component {
     };
   }
 
+  /*TODO - look into update functionality */
+
+  static getDerivedStateFromProps = (newProps, prevState) => {
+    return {
+      isRevealed: newProps.revealed
+    };
+  };
+
   cellClicked = event => {
     this.props.onLeftClick(event.target.id);
   };
@@ -19,7 +27,8 @@ class Cell extends Component {
     if (this.state.isRevealed === true) {
       return (
         <div
-          className="cell"
+          /*TODO - Create CSS Module instead of seperate file */
+          className="cell cell-is-revealed"
           id={this.state.cellId}
           onClick={this.cellClicked.bind(this)}
         >
@@ -29,7 +38,7 @@ class Cell extends Component {
     } else {
       return (
         <div
-          className="cell"
+          className="cell cell-is-hidden"
           id={this.state.cellId}
           onClick={this.cellClicked.bind(this)}
         />
