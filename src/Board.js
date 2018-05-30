@@ -55,7 +55,6 @@ class Board extends Component {
     for (let i = 0; i < height; i++) {
       cellData.push([]);
       for (let j = 0; j < width; j++) {
-        /* TODO - Need to initialize cellData*/
         cellData[i][j] = {
           key: "R" + i + "C" + j,
           id: i + "-" + j,
@@ -68,14 +67,37 @@ class Board extends Component {
     return cellData;
   };
 
-  /*TODO - Handle Click Event (Reveal Cell)*/
+  /*Handle Click Event (Reveal Cell)*/
   handleLeftClick = cellId => {
-    console.log(this.state.cells);
-    let cell = this.state.cells.forEach(obj => {
-      //console.log(obj.id);
+    /*TODO - find some way to break out of process if already revealed (clicking on an revealed cell again)*/
+    let newCell = "";
+    let cells = this.state.cells;
+    for (let i = 0; i < cells.length; i++) {
+      for (let j = 0; j < cells[i].length; j++) {
+        if (cells[i][j].id === cellId) {
+          newCell = {
+            key: cells[i][j].key,
+            id: cells[i][j].id,
+            revealed: true,
+            isMine: cells[i][j].isMine,
+            value: cells[i][j].value
+          };
+          break;
+        }
+      }
+    }
+    let newCells = cells.map(row => {
+      return row.map(cell => {
+        return cell.id === newCell.id ? newCell : cell;
+      });
     });
-    console.log(cellId);
+    this.setState({ cells: newCells });
   };
+
+  /*TODO - Handle Right Click Event (Flag)*/
+
+  /*TODO - need function to recursively reveal adjacent cells */
+
   /*TODO - Handle Right Click Event (Flag)*/
 
   traverseNeighbors = (row, col, data) => {
@@ -114,6 +136,7 @@ class Board extends Component {
             key={item.key}
             value={item.value}
             id={item.id}
+            revealed={item.revealed}
             onLeftClick={this.handleLeftClick.bind(this)}
           />
         );

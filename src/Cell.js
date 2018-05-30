@@ -5,7 +5,8 @@ class Cell extends Component {
     super(props);
     this.state = {
       val: props.value,
-      cellId: props.id
+      cellId: props.id,
+      isRevealed: props.revealed
     };
   }
 
@@ -15,15 +16,25 @@ class Cell extends Component {
 
   render() {
     let value = this.state.val;
-    return (
-      <div
-        className="cell"
-        id={this.state.cellId}
-        onClick={this.cellClicked.bind(this)}
-      >
-        {value}
-      </div>
-    );
+    if (this.state.isRevealed === true) {
+      return (
+        <div
+          className="cell"
+          id={this.state.cellId}
+          onClick={this.cellClicked.bind(this)}
+        >
+          {value}
+        </div>
+      );
+    } else {
+      return (
+        <div
+          className="cell"
+          id={this.state.cellId}
+          onClick={this.cellClicked.bind(this)}
+        />
+      );
+    }
   }
 }
 

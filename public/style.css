@@ -10,6 +10,11 @@
 .board {
   max-width: 400px;
 }
-.is-revealed {
+
+.cell-is-hidden {
+  background-color: dimgrey;
+}
+
+.cell-is-revealed {
   background-color: black;
 }
