@@ -72,31 +72,55 @@ class Board extends Component {
     /*TODO - find some way to break out of process if already revealed (clicking on an revealed cell again)*/
     let newCell = "";
     let cells = this.state.cells;
+    let updateState = false;
     for (let i = 0; i < cells.length; i++) {
       for (let j = 0; j < cells[i].length; j++) {
         if (cells[i][j].id === cellId) {
-          newCell = {
-            key: cells[i][j].key,
-            id: cells[i][j].id,
-            revealed: true,
-            isMine: cells[i][j].isMine,
-            value: cells[i][j].value
-          };
-          break;
+          if (cells[i][j].revealed === false) {
+            newCell = {
+              key: cells[i][j].key,
+              id: cells[i][j].id,
+              revealed: true,
+              isMine: cells[i][j].isMine,
+              value: cells[i][j].value
+            };
+            updateState = true;
+            break;
+            //If Cell is hidden and it is blank
+          } else if (
+            cells[i][j].revealed === false &&
+            cells[i][j].value === ""
+          ) {
+            newCell = {
+              key: cells[i][j].key,
+              id: cells[i][j].id,
+              revealed: true,
+              isMine: cells[i][j].isMine,
+              value: cells[i][j].value
+            };
+            updateState = true;
+            this.clearNeighbors(i, j, cells);
+            break;
+          } else {
+            break;
+          }
         }
       }
     }
-    let newCells = cells.map(row => {
-      return row.map(cell => {
-        return cell.id === newCell.id ? newCell : cell;
+    if (updateState === true) {
+      let newCells = cells.map(row => {
+        return row.map(cell => {
+          return cell.id === newCell.id ? newCell : cell;
+        });
       });
-    });
-    this.setState({ cells: newCells });
+      this.setState({ cells: newCells });
+    }
   };
 
   /*TODO - Handle Right Click Event (Flag)*/
 
   /*TODO - need function to recursively reveal adjacent cells */
+  clearNeighbors = (row, col, data) => {};
 
   /*TODO - Handle Right Click Event (Flag)*/
 
