@@ -6,7 +6,9 @@ class Cell extends Component {
     this.state = {
       val: props.value,
       cellId: props.id,
-      isRevealed: props.revealed
+      isRevealed: props.revealed,
+      row: props.row,
+      col: props.col
     };
   }
 
@@ -19,7 +21,9 @@ class Cell extends Component {
   };
 
   cellClicked = event => {
-    this.props.onLeftClick(event.target.id);
+    let r = this.state.row;
+    let c = this.state.col;
+    this.props.onLeftClick(event.target.id, r, c);
   };
 
   render() {

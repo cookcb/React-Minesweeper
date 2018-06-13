@@ -60,7 +60,9 @@ class Board extends Component {
           id: i + "-" + j,
           revealed: false,
           isMine: false,
-          value: ""
+          value: "",
+          row: i,
+          col: j
         };
       }
     }
@@ -68,57 +70,25 @@ class Board extends Component {
   };
 
   /*Handle Click Event (Reveal Cell)*/
-  handleLeftClick = cellId => {
-    /*TODO - find some way to break out of process if already revealed (clicking on an revealed cell again)*/
+  handleLeftClick = (cellId, row, col) => {
     let newCell = "";
-    let cells = this.state.cells;
-    let updateState = false;
-    for (let i = 0; i < cells.length; i++) {
-      for (let j = 0; j < cells[i].length; j++) {
-        if (cells[i][j].id === cellId) {
-          if (cells[i][j].revealed === false) {
-            newCell = {
-              key: cells[i][j].key,
-              id: cells[i][j].id,
-              revealed: true,
-              isMine: cells[i][j].isMine,
-              value: cells[i][j].value
-            };
-            updateState = true;
-            break;
-            //If Cell is hidden and it is blank
-          } else if (
-            cells[i][j].revealed === false &&
-            cells[i][j].value === ""
-          ) {
-            newCell = {
-              key: cells[i][j].key,
-              id: cells[i][j].id,
-              revealed: true,
-              isMine: cells[i][j].isMine,
-              value: cells[i][j].value
-            };
-            updateState = true;
-            this.clearNeighbors(i, j, cells);
-            break;
-          } else {
-            break;
-          }
-        }
-      }
-    }
-    if (updateState === true) {
-      let newCells = cells.map(row => {
-        return row.map(cell => {
-          return cell.id === newCell.id ? newCell : cell;
-        });
-      });
-      this.setState({ cells: newCells });
-    }
+    let cells = this.state.cells.map(function(arr) {
+      return arr.slice();
+    });
+
+    let newCells = this.reveal(cells, row, col);
+    this.setState({ cells: newCells });
   };
 
   /*TODO - Handle Right Click Event (Flag)*/
-
+  reveal = (cells, row, col) => {
+    if (cells[row][col].revealed === false) {
+      cells[row][col].revealed = true;
+    } else {
+      return cells;
+    }
+    return cells;
+  };
   /*TODO - need function to recursively reveal adjacent cells */
   clearNeighbors = (row, col, data) => {};
 
@@ -160,6 +130,8 @@ class Board extends Component {
             key={item.key}
             value={item.value}
             id={item.id}
+            row={item.row}
+            col={item.col}
             revealed={item.revealed}
             onLeftClick={this.handleLeftClick.bind(this)}
           />
