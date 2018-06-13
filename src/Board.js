@@ -76,21 +76,39 @@ class Board extends Component {
       return arr.slice();
     });
 
-    let newCells = this.reveal(cells, row, col);
+    let newCells = this.revealCascade(cells, row, col);
     this.setState({ cells: newCells });
   };
 
   /*TODO - Handle Right Click Event (Flag)*/
-  reveal = (cells, row, col) => {
-    if (cells[row][col].revealed === false) {
+  revealCascade = (cells, row, col) => {
+    if (
+      row > cells.length - 1 ||
+      row < 0 ||
+      col < 0 ||
+      col > cells[row].length - 1
+    ) {
+      return;
+    } else if (
+      cells[row][col].value === "" &&
+      cells[row][col].revealed === false
+    ) {
       cells[row][col].revealed = true;
+      this.revealCascade(cells, row + 1, col);
+      this.revealCascade(cells, row - 1, col);
+      this.revealCascade(cells, row, col - 1);
+      this.revealCascade(cells, row, col + 1);
+      return cells;
+    } else if (
+      cells[row][col].value !== "" &&
+      cells[row][col].revealed === false
+    ) {
+      cells[row][col].revealed = true;
+      return cells;
     } else {
       return cells;
     }
-    return cells;
   };
-  /*TODO - need function to recursively reveal adjacent cells */
-  clearNeighbors = (row, col, data) => {};
 
   /*TODO - Handle Right Click Event (Flag)*/
 
