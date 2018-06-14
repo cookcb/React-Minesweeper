@@ -7,6 +7,7 @@ class Cell extends Component {
       val: props.value,
       cellId: props.id,
       isRevealed: props.revealed,
+      isFlagged: props.flagged,
       row: props.row,
       col: props.col
     };
@@ -16,25 +17,43 @@ class Cell extends Component {
 
   static getDerivedStateFromProps = (newProps, prevState) => {
     return {
-      isRevealed: newProps.revealed
+      isRevealed: newProps.revealed,
+      isFlagged: newProps.flagged,
+      val: newProps.value
     };
   };
 
   cellClicked = event => {
     let r = this.state.row;
     let c = this.state.col;
-    this.props.onLeftClick(event.target.id, r, c);
+    event.preventDefault();
+    this.props.onLeftClick(event.type, r, c);
   };
 
   render() {
     let value = this.state.val;
-    if (this.state.isRevealed === true) {
+    if (this.state.isFlagged === true && this.state.isRevealed === false) {
+      return (
+        <div
+          /*TODO - Create CSS Module instead of seperate file */
+          className="cell cell-is-hidden"
+          id={this.state.cellId}
+          onClick={this.cellClicked.bind(this)}
+          onContextMenu={this.cellClicked.bind(this)}
+        >
+          <span role="img" aria-label="Flag">
+            🚩
+          </span>
+        </div>
+      );
+    } else if (this.state.isRevealed === true) {
       return (
         <div
           /*TODO - Create CSS Module instead of seperate file */
           className="cell cell-is-revealed"
           id={this.state.cellId}
           onClick={this.cellClicked.bind(this)}
+          onContextMenu={this.cellClicked.bind(this)}
         >
           {value}
         </div>
@@ -45,6 +64,7 @@ class Cell extends Component {
           className="cell cell-is-hidden"
           id={this.state.cellId}
           onClick={this.cellClicked.bind(this)}
+          onContextMenu={this.cellClicked.bind(this)}
         />
       );
     }

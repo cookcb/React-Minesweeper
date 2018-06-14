@@ -60,6 +60,7 @@ class Board extends Component {
           id: i + "-" + j,
           revealed: false,
           isMine: false,
+          isFlagged: false,
           value: "",
           row: i,
           col: j
@@ -70,14 +71,30 @@ class Board extends Component {
   };
 
   /*Handle Click Event (Reveal Cell)*/
-  handleLeftClick = (cellId, row, col) => {
-    let newCell = "";
-    let cells = this.state.cells.map(function(arr) {
-      return arr.slice();
-    });
-
-    let newCells = this.revealCascade(cells, row, col);
-    this.setState({ cells: newCells });
+  handleLeftClick = (eventType, row, col) => {
+    if (eventType === "click") {
+      let cells = this.state.cells.map(function(arr) {
+        return arr.slice();
+      });
+      if (cells[row][col].isFlagged === true) {
+        return;
+      }
+      let newCells = this.revealCascade(cells, row, col);
+      this.setState({ cells: newCells });
+    } else if (eventType === "contextmenu") {
+      let cellsCopy = this.state.cells.map(function(arr) {
+        return arr.slice();
+      });
+      if (cellsCopy[row][col].isFlagged === false) {
+        let flaggedCell = cellsCopy[row][col];
+        flaggedCell.isFlagged = true;
+        this.setState({ cells: cellsCopy });
+      } else if (cellsCopy[row][col].isFlagged === true) {
+        let flaggedCell = cellsCopy[row][col];
+        flaggedCell.isFlagged = false;
+        this.setState({ cells: cellsCopy });
+      }
+    }
   };
 
   /*TODO - Handle Right Click Event (Flag)*/
@@ -147,6 +164,7 @@ class Board extends Component {
           <Cell
             key={item.key}
             value={item.value}
+            flagged={item.isFlagged}
             id={item.id}
             row={item.row}
             col={item.col}
