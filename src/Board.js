@@ -72,29 +72,30 @@ class Board extends Component {
 
   /*Handle Click Event (Reveal Cell)*/
   handleLeftClick = (eventType, row, col) => {
+    let cells = this.state.cells.map(function(arr) {
+      return arr.slice();
+    });
+
     if (eventType === "click") {
-      let cells = this.state.cells.map(function(arr) {
-        return arr.slice();
-      });
       if (cells[row][col].isFlagged === true) {
         return;
+      } else if (cells[row][col].isMine === true) {
+        alert("GAME OVER");
+        cells = this.revealBoard(cells);
+      } else {
+        cells = this.revealCascade(cells, row, col);
       }
-      let newCells = this.revealCascade(cells, row, col);
-      this.setState({ cells: newCells });
     } else if (eventType === "contextmenu") {
-      let cellsCopy = this.state.cells.map(function(arr) {
-        return arr.slice();
-      });
-      if (cellsCopy[row][col].isFlagged === false) {
-        let flaggedCell = cellsCopy[row][col];
+      if (cells[row][col].isFlagged === false) {
+        let flaggedCell = cells[row][col];
         flaggedCell.isFlagged = true;
-        this.setState({ cells: cellsCopy });
-      } else if (cellsCopy[row][col].isFlagged === true) {
-        let flaggedCell = cellsCopy[row][col];
+      } else if (cells[row][col].isFlagged === true) {
+        let flaggedCell = cells[row][col];
         flaggedCell.isFlagged = false;
-        this.setState({ cells: cellsCopy });
       }
     }
+
+    this.setState({ cells: cells });
   };
 
   /*TODO - Handle Right Click Event (Flag)*/
@@ -127,8 +128,6 @@ class Board extends Component {
     }
   };
 
-  /*TODO - Handle Right Click Event (Flag)*/
-
   traverseNeighbors = (row, col, data) => {
     let mineCnt = 0;
     let minRow = row - 1,
@@ -154,6 +153,19 @@ class Board extends Component {
     if (mineCnt !== 0) {
       data[row][col].value = mineCnt;
     }
+  };
+
+  revealBoard = data => {
+    return data.map(arr => {
+      return arr.map(item => {
+        let newItem = Object.assign({}, item);
+        if (newItem.revealed !== true) {
+          newItem.revealed = true;
+          newItem.flagged = false;
+        }
+        return newItem;
+      });
+    });
   };
 
   renderBoard = data => {
