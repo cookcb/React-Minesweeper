@@ -75,7 +75,7 @@ class Board extends Component {
     let cells = this.state.cells.map(function(arr) {
       return arr.slice();
     });
-
+    let wonGame = false;
     if (eventType === "click") {
       if (cells[row][col].isFlagged === true) {
         return;
@@ -94,7 +94,11 @@ class Board extends Component {
         flaggedCell.isFlagged = false;
       }
     }
-
+    wonGame = this.gameStatus(cells);
+    if (wonGame === true) {
+      alert("YOU WON");
+      cells = this.revealBoard(cells);
+    }
     this.setState({ cells: cells });
   };
 
@@ -166,6 +170,27 @@ class Board extends Component {
         return newItem;
       });
     });
+  };
+
+  gameStatus = data => {
+    let mineCnt = this.state.mineCount;
+    let flaggedMineCnt = 0,
+      remainingCells = 0;
+    let wonGame = false;
+    data.forEach(arr => {
+      arr.forEach(item => {
+        if (item.revealed === false) {
+          remainingCells++;
+        }
+        if (item.isMine === true && item.isFlagged === true) {
+          flaggedMineCnt++;
+        }
+      });
+    });
+    if (flaggedMineCnt === mineCnt || remainingCells === mineCnt) {
+      return true;
+    }
+    return false;
   };
 
   renderBoard = data => {

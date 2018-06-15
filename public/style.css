@@ -9,6 +9,7 @@
 
 .board {
   max-width: 400px;
+  margin: auto;
 }
 
 .cell-is-hidden {
