@@ -13,9 +13,11 @@
 }
 
 .cell-is-hidden {
-  background-color: darkblue;
+  background-color: #0066cc;
+  line-height: 45px;
 }
 
 .cell-is-revealed {
-  background-color: dimgrey;
+  background-color: #cccccc;
+  line-height: 45px;
 }

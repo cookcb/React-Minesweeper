@@ -71,7 +71,7 @@ class Board extends Component {
   };
 
   /*Handle Click Event (Reveal Cell)*/
-  handleLeftClick = (eventType, row, col) => {
+  handleClick = (eventType, row, col) => {
     let cells = this.state.cells.map(function(arr) {
       return arr.slice();
     });
@@ -102,7 +102,6 @@ class Board extends Component {
     this.setState({ cells: cells });
   };
 
-  /*TODO - Handle Right Click Event (Flag)*/
   revealCascade = (cells, row, col) => {
     if (
       row > cells.length - 1 ||
@@ -206,7 +205,7 @@ class Board extends Component {
             row={item.row}
             col={item.col}
             revealed={item.revealed}
-            onLeftClick={this.handleLeftClick.bind(this)}
+            onLeftClick={this.handleClick.bind(this)}
           />
         );
       });
