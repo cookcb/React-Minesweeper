@@ -28,7 +28,7 @@ class Board extends Component {
     }
     currentMines.forEach(item => {
       data[item.row][item.col].isMine = true;
-      data[item.row][item.col].value = "M";
+      data[item.row][item.col].value = "💥";
     });
   };
 
