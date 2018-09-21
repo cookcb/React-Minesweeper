@@ -1,5 +1,27 @@
 import React, { Component } from "react";
 
+let cell_hidden = {
+  width: "45px",
+  float: "left",
+  height: "45px",
+  border: "1px solid black",
+  backgroundColor: "dimgrey",
+  textAlign: "center",
+  backgroundColor: "#0066cc",
+  lineHeight: "45px"
+};
+
+let cell_revealed = {
+  width: "45px",
+  float: "left",
+  height: "45px",
+  border: "1px solid black",
+  backgroundColor: "dimgrey",
+  textAlign: "center",
+  backgrounColor: "#cccccc",
+  lineHeight: "45px"
+};
+
 class Cell extends Component {
   constructor(props) {
     super(props);
@@ -36,7 +58,7 @@ class Cell extends Component {
       return (
         <div
           /*TODO - Create CSS Module instead of seperate file */
-          className="cell cell-is-hidden"
+          style={cell_hidden}
           id={this.state.cellId}
           onClick={this.cellClicked.bind(this)}
           onContextMenu={this.cellClicked.bind(this)}
@@ -50,7 +72,7 @@ class Cell extends Component {
       return (
         <div
           /*TODO - Create CSS Module instead of seperate file */
-          className="cell cell-is-revealed"
+          style={cell_revealed}
           id={this.state.cellId}
           onClick={this.cellClicked.bind(this)}
           onContextMenu={this.cellClicked.bind(this)}
@@ -61,7 +83,7 @@ class Cell extends Component {
     } else {
       return (
         <div
-          className="cell cell-is-hidden"
+          style={cell_hidden}
           id={this.state.cellId}
           onClick={this.cellClicked.bind(this)}
           onContextMenu={this.cellClicked.bind(this)}
