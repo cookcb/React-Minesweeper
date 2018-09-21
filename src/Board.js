@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import Cell from "./Cell.js";
 
+let board = {
+  //maxWidth: "400px",
+  margin: "auto"
+};
+
 class Board extends Component {
   constructor(props) {
     super(props);
@@ -20,10 +25,9 @@ class Board extends Component {
   setMines = (data, mineCnt) => {
     let currentMines = [];
     for (let i = 0; i < mineCnt; i++) {
-      Math.floor(Math.random * 63);
       currentMines.push({
-        row: Math.floor(Math.random() * 7),
-        col: Math.floor(Math.random() * 7)
+        row: Math.floor(Math.random() * data[0].length),
+        col: Math.floor(Math.random() * data.length)
       });
     }
     currentMines.forEach(item => {
@@ -46,6 +50,7 @@ class Board extends Component {
     let data = this.createArray(height, width);
     this.setMines(data, mineCount);
     this.setValues(data);
+    board.maxWidth = "" + width * 50 + "px";
 
     return data;
   };
@@ -173,8 +178,8 @@ class Board extends Component {
 
   gameStatus = data => {
     let mineCnt = this.state.mineCount;
-    let flaggedMineCnt = 0,
-      remainingCells = 0;
+    let flaggedMineCnt = 0;
+    let remainingCells = 0;
     let wonGame = false;
     data.forEach(arr => {
       arr.forEach(item => {
@@ -213,7 +218,7 @@ class Board extends Component {
   };
 
   render() {
-    return <div className="board">{this.renderBoard(this.state.cells)}</div>;
+    return <div style={board}>{this.renderBoard(this.state.cells)}</div>;
   }
 }
 
