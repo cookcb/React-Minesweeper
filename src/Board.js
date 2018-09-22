@@ -177,7 +177,7 @@ class Board extends Component {
   };
 
   gameStatus = data => {
-    let mineCnt = this.state.mineCount;
+    let mineCnt = this.state.mines;
     let flaggedMineCnt = 0;
     let remainingCells = 0;
     let wonGame = false;
