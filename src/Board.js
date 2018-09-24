@@ -24,12 +24,20 @@ class Board extends Component {
   /*Set the mine locations on the grid */
   setMines = (data, mineCnt) => {
     let currentMines = [];
-    for (let i = 0; i < mineCnt; i++) {
-      currentMines.push({
-        row: Math.floor(Math.random() * data[0].length),
-        col: Math.floor(Math.random() * data.length)
+    while (currentMines.length < mineCnt) {
+      let row = Math.floor(Math.random() * (data.length - 1));
+      let col = Math.floor(Math.random() * (data[0].length - 1));
+      let existingItem = currentMines.find(item => {
+        item.row === row && item.col === col;
       });
+      if (typeof existingItem === "undefined") {
+        currentMines.push({
+          row: Math.floor(Math.random() * (data.length - 1)),
+          col: Math.floor(Math.random() * (data[0].length - 1))
+        });
+      }
     }
+    console.log(currentMines);
     currentMines.forEach(item => {
       data[item.row][item.col].isMine = true;
       data[item.row][item.col].value = "💥";
