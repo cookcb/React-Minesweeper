@@ -28,16 +28,15 @@ class Board extends Component {
       let row = Math.floor(Math.random() * (data.length - 1));
       let col = Math.floor(Math.random() * (data[0].length - 1));
       let existingItem = currentMines.find(item => {
-        item.row === row && item.col === col;
+        return item.row === row && item.col === col;
       });
       if (typeof existingItem === "undefined") {
         currentMines.push({
-          row: Math.floor(Math.random() * (data.length - 1)),
-          col: Math.floor(Math.random() * (data[0].length - 1))
+          row: row,
+          col: col
         });
       }
     }
-    console.log(currentMines);
     currentMines.forEach(item => {
       data[item.row][item.col].isMine = true;
       data[item.row][item.col].value = "💥";
