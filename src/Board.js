@@ -17,6 +17,15 @@ class Board extends Component {
     };
   }
 
+  static getDerivedStateFromProps = (newProps, prevState) => {
+    console.log(newProps);
+    return {
+      height: newProps.height,
+      width: newProps.width,
+      mines: newProps.mines
+    };
+  };
+
   renderCell = val => {
     return <Cell value={val} />;
   };
