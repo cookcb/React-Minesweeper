@@ -4,9 +4,9 @@ class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      rows: 8,
-      cols: 8,
-      mines: 5
+      rows: 10,
+      cols: 10,
+      mines: 4
     };
     this.handleChange = this.handleChange.bind(this);
     this.updateBoard = this.updateBoard.bind(this);
@@ -39,7 +39,6 @@ class Settings extends Component {
     }
 
     if (newMessage === "") {
-      console.log(this.props);
       this.props.update(this.state.rows, this.state.cols, this.state.mines);
     } else {
       alert(newMessage);
@@ -79,7 +78,6 @@ class Settings extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <div>
         Rows:

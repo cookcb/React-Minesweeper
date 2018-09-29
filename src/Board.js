@@ -17,8 +17,24 @@ class Board extends Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.height !== this.props.height ||
+      prevProps.width !== this.props.width ||
+      prevProps.mines !== this.props.mines
+    ) {
+      console.log("TEST");
+      this.setState({
+        cells: this.initBoardData(
+          this.props.height,
+          this.props.width,
+          this.props.mines
+        )
+      });
+    }
+  }
+
   static getDerivedStateFromProps = (newProps, prevState) => {
-    console.log(newProps);
     return {
       height: newProps.height,
       width: newProps.width,
@@ -33,6 +49,7 @@ class Board extends Component {
   /*Set the mine locations on the grid */
   setMines = (data, mineCnt) => {
     let currentMines = [];
+    console.log(mineCnt);
     while (currentMines.length < mineCnt) {
       let row = Math.floor(Math.random() * (data.length - 1));
       let col = Math.floor(Math.random() * (data[0].length - 1));

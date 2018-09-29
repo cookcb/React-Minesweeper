@@ -8,13 +8,12 @@ class Game extends Component {
     this.state = {
       height: 10,
       width: 10,
-      mineCount: 20
+      mineCount: 4
     };
     this.updateBoardSettings = this.updateBoardSettings.bind(this);
   }
 
   updateBoardSettings(rows, cols, mines) {
-    console.log(mines);
     this.setState({
       height: rows,
       width: cols,
