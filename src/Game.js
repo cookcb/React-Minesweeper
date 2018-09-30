@@ -26,6 +26,24 @@ class Game extends Component {
       <div>
         React Minesweeper
         <Settings update={this.updateBoardSettings} />
+        Rows:
+        <input
+          name="rows"
+          value={this.state.rows}
+          onChange={this.handleChange}
+        />
+        Columns:
+        <input
+          name="cols"
+          value={this.state.cols}
+          onChange={this.handleChange}
+        />
+        Mine Count:
+        <input
+          name="mines"
+          value={this.state.mines}
+          onChange={this.handleChange}
+        />
         <Board
           height={this.state.height}
           width={this.state.width}

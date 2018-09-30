@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Cell from "./Cell.js";
 
-let board = {
+const board = {
   //maxWidth: "400px",
   margin: "auto"
 };
@@ -15,23 +15,6 @@ class Board extends Component {
       mines: props.mines,
       cells: this.initBoardData(props.height, props.width, props.mines)
     };
-  }
-
-  componentDidUpdate(prevProps) {
-    if (
-      prevProps.height !== this.props.height ||
-      prevProps.width !== this.props.width ||
-      prevProps.mines !== this.props.mines
-    ) {
-      console.log("TEST");
-      this.setState({
-        cells: this.initBoardData(
-          this.props.height,
-          this.props.width,
-          this.props.mines
-        )
-      });
-    }
   }
 
   static getDerivedStateFromProps = (newProps, prevState) => {
@@ -83,7 +66,7 @@ class Board extends Component {
     let data = this.createArray(height, width);
     this.setMines(data, mineCount);
     this.setValues(data);
-    board.maxWidth = "" + width * 50 + "px";
+    //console.log(board);
 
     return data;
   };
@@ -230,6 +213,64 @@ class Board extends Component {
     return false;
   };
 
+  resetBoard(event) {
+    let { height, width, mines } = this.state;
+    let rowMessage = this.verifyRows(height);
+    let colMessage = this.verifyCols(width);
+    let minewMessage = this.verifyMineCount(mines);
+    let newMessage = "";
+
+    if (rowMessage !== "") {
+      newMessage = newMessage + rowMessage + "\n";
+    }
+    if (colMessage !== "") {
+      newMessage = newMessage + colMessage + "\n";
+    }
+    if (minewMessage !== "") {
+      newMessage = newMessage + minewMessage + "\n";
+    }
+
+    if (newMessage === "") {
+      this.setState({
+        cells: this.initBoardData(height, width, mines)
+      });
+    } else {
+      alert(newMessage);
+    }
+  }
+
+  verifyRows(value) {
+    let message = "";
+    if (value > 10) {
+      message = "The number of rows cannot exceed 10";
+    } else if (value < 1) {
+      message = "The number of rows cannot be lower than 1";
+    }
+    return message;
+  }
+
+  verifyCols(value) {
+    let message = "";
+    if (value > 10) {
+      message = "The number of columns cannot exceed 10";
+    } else if (value < 1) {
+      message = "The number of columns cannot be lower than 1";
+    }
+    return message;
+  }
+
+  verifyMineCount(value) {
+    let message = "";
+    if (value > this.state.rows + this.state.cols) {
+      message =
+        "The number of mines cannot exceed " +
+        (this.state.rows + this.state.cols);
+    } else if (value < 1) {
+      message = "The number of mines cannot be lower than 1";
+    }
+    return message;
+  }
+
   renderBoard = data => {
     return data.map(row => {
       return row.map(item => {
@@ -251,7 +292,19 @@ class Board extends Component {
   };
 
   render() {
-    return <div style={board}>{this.renderBoard(this.state.cells)}</div>;
+    let board = {
+      //maxWidth: "400px",
+      margin: "auto"
+    };
+    board.maxWidth = "" + this.state.width * 50 + "px";
+    return (
+      <div>
+        <button type="button" onClick={this.resetBoard.bind(this)}>
+          Reset Board
+        </button>
+        <div style={board}>{this.renderBoard(this.state.cells)}</div>
+      </div>
+    );
   }
 }
 
