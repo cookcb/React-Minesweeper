@@ -35,8 +35,6 @@ class Cell extends Component {
     };
   }
 
-  /*TODO - look into update functionality */
-
   static getDerivedStateFromProps = (newProps, prevState) => {
     return {
       isRevealed: newProps.revealed,
@@ -57,7 +55,6 @@ class Cell extends Component {
     if (this.state.isFlagged === true && this.state.isRevealed === false) {
       return (
         <div
-          /*TODO - Create CSS Module instead of seperate file */
           style={cell_hidden}
           id={this.state.cellId}
           onClick={this.cellClicked.bind(this)}
@@ -71,7 +68,6 @@ class Cell extends Component {
     } else if (this.state.isRevealed === true) {
       return (
         <div
-          /*TODO - Create CSS Module instead of seperate file */
           style={cell_revealed}
           id={this.state.cellId}
           onClick={this.cellClicked.bind(this)}

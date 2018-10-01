@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Board from "./Board";
-//import Settings from "./Settings";
 
 class Game extends Component {
   constructor() {
@@ -14,10 +13,8 @@ class Game extends Component {
   }
 
   handleChange(event) {
-    //let value = event.target.value;
     let name = event.target.name;
     let value = parseInt(event.target.value);
-    console.log(name + " " + value);
     this.setState({
       [name]: value
     });
@@ -26,8 +23,7 @@ class Game extends Component {
   render() {
     return (
       <div>
-        React Minesweeper
-        <br />
+        <h1>React Minesweeper</h1>
         Rows:
         <input
           name="rows"

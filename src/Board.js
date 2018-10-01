@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import Cell from "./Cell.js";
 
-const board = {
-  //maxWidth: "400px",
-  margin: "auto"
-};
-
 class Board extends Component {
   constructor(props) {
     super(props);
@@ -66,7 +61,6 @@ class Board extends Component {
     let data = this.createArray(height, width);
     this.setMines(data, mineCount);
     this.setValues(data);
-    //console.log(board);
 
     return data;
   };
@@ -227,7 +221,6 @@ class Board extends Component {
       newMessage = newMessage + colMessage + "\n";
     }
     if (minewMessage !== "") {
-      console.log("TEST");
       newMessage = newMessage + minewMessage + "\n";
     }
 
@@ -296,7 +289,6 @@ class Board extends Component {
 
   render() {
     let board = {
-      //maxWidth: "400px",
       margin: "auto"
     };
     board.maxWidth = this.state.maxWidth;
