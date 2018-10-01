@@ -217,7 +217,7 @@ class Board extends Component {
     let { height, width, mines } = this.state;
     let rowMessage = this.verifyRows(height);
     let colMessage = this.verifyCols(width);
-    let minewMessage = this.verifyMineCount(mines);
+    let minewMessage = this.verifyMineCount(mines, width, height);
     let newMessage = "";
 
     if (rowMessage !== "") {
@@ -241,33 +241,34 @@ class Board extends Component {
     }
   }
 
-  verifyRows(value) {
+  verifyRows(rows) {
     let message = "";
-    if (value > 10) {
+    if (rows > 10) {
       message = "The number of rows cannot exceed 10";
-    } else if (value < 1) {
+    } else if (rows < 1) {
       message = "The number of rows cannot be lower than 1";
     }
     return message;
   }
 
-  verifyCols(value) {
+  verifyCols(cols) {
     let message = "";
-    if (value > 10) {
+    if (cols > 10) {
       message = "The number of columns cannot exceed 10";
-    } else if (value < 1) {
+    } else if (cols < 1) {
       message = "The number of columns cannot be lower than 1";
     }
     return message;
   }
 
-  verifyMineCount(value) {
+  verifyMineCount(mines, rows, cols) {
     let message = "";
-    if (value >= this.state.rows + this.state.cols) {
+    if (mines >= rows + cols) {
+      message = "The number of mines cannot exceed " + (rows + cols) + "\n";
+    } else if (mines > rows && mines > cols) {
       message =
-        "The number of mines cannot exceed " +
-        (this.state.rows + this.state.cols);
-    } else if (value < 1) {
+        "The number of mines cannot exceed the number of rows or columns\n";
+    } else if (mines < 1) {
       message = "The number of mines cannot be lower than 1";
     }
     return message;
