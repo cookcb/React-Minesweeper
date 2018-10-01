@@ -1,23 +1,25 @@
 import React, { Component } from "react";
 import Board from "./Board";
-import Settings from "./Settings";
+//import Settings from "./Settings";
 
 class Game extends Component {
   constructor() {
     super();
     this.state = {
-      height: 10,
-      width: 10,
-      mineCount: 4
+      rows: 10,
+      cols: 10,
+      mines: 4
     };
-    this.updateBoardSettings = this.updateBoardSettings.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  updateBoardSettings(rows, cols, mines) {
+  handleChange(event) {
+    //let value = event.target.value;
+    let name = event.target.name;
+    let value = parseInt(event.target.value);
+    console.log(name + " " + value);
     this.setState({
-      height: rows,
-      width: cols,
-      mines: mines
+      [name]: value
     });
   }
 
@@ -25,7 +27,7 @@ class Game extends Component {
     return (
       <div>
         React Minesweeper
-        <Settings update={this.updateBoardSettings} />
+        <br />
         Rows:
         <input
           name="rows"
@@ -45,9 +47,9 @@ class Game extends Component {
           onChange={this.handleChange}
         />
         <Board
-          height={this.state.height}
-          width={this.state.width}
-          mines={this.state.mineCount}
+          height={this.state.rows}
+          width={this.state.cols}
+          mines={this.state.mines}
         />
       </div>
     );

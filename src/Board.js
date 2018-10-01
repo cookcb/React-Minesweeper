@@ -13,7 +13,8 @@ class Board extends Component {
       height: props.height,
       width: props.width,
       mines: props.mines,
-      cells: this.initBoardData(props.height, props.width, props.mines)
+      cells: this.initBoardData(props.height, props.width, props.mines),
+      maxWidth: "" + props.width * 50 + "px"
     };
   }
 
@@ -32,7 +33,6 @@ class Board extends Component {
   /*Set the mine locations on the grid */
   setMines = (data, mineCnt) => {
     let currentMines = [];
-    console.log(mineCnt);
     while (currentMines.length < mineCnt) {
       let row = Math.floor(Math.random() * (data.length - 1));
       let col = Math.floor(Math.random() * (data[0].length - 1));
@@ -227,12 +227,14 @@ class Board extends Component {
       newMessage = newMessage + colMessage + "\n";
     }
     if (minewMessage !== "") {
+      console.log("TEST");
       newMessage = newMessage + minewMessage + "\n";
     }
 
     if (newMessage === "") {
       this.setState({
-        cells: this.initBoardData(height, width, mines)
+        cells: this.initBoardData(height, width, mines),
+        maxWidth: "" + this.state.width * 50 + "px"
       });
     } else {
       alert(newMessage);
@@ -261,7 +263,7 @@ class Board extends Component {
 
   verifyMineCount(value) {
     let message = "";
-    if (value > this.state.rows + this.state.cols) {
+    if (value >= this.state.rows + this.state.cols) {
       message =
         "The number of mines cannot exceed " +
         (this.state.rows + this.state.cols);
@@ -296,7 +298,7 @@ class Board extends Component {
       //maxWidth: "400px",
       margin: "auto"
     };
-    board.maxWidth = "" + this.state.width * 50 + "px";
+    board.maxWidth = this.state.maxWidth;
     return (
       <div>
         <button type="button" onClick={this.resetBoard.bind(this)}>
